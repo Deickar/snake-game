@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <vector>
+
 struct BoardSquare 
 {
 	bool hasFood;
@@ -19,7 +21,9 @@ public:
 	
 	
 protected:
-	BoardSquare gameBoard[30][52];
+	//BoardSquare * gameBoard;
+	//std::vector<BoardSquare><BoardSquare> gameBoard;
+	std::vector< std::vector<BoardSquare> > gameBoard;
 	int food_x;
 	int food_y;
 	
