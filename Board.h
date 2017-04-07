@@ -20,11 +20,12 @@ public:
 	void clearBoard();
 	void setSquareContent(int square_y, int square_x, int content);
 	int getSquareContent(int square_y, int square_x);
+	std::pair <int, int> getFoodPosition();
 	
 protected:
 	std::vector< std::vector<BoardSquare> > gameBoard;
-	int food_x;
 	int food_y;
+	int food_x;
 	
 	int y_width;
 	int x_width;

@@ -2,6 +2,8 @@
 #include "catch.hpp"
 #include "Board.h"
 
+using namespace std;
+
 TEST_CASE( "The content of gameBoard[10][10] are set to different values") {
 	Board * b = new Board();
     //REQUIRE( test == 2 );
@@ -16,5 +18,20 @@ TEST_CASE( "The content of gameBoard[10][10] are set to different values") {
 	{
 		b->clearBoard();
 		REQUIRE(b->getSquareContent(10, 10) == 0);
+	}
+}
+
+TEST_CASE( "The location of the food item changes after calling generateFood()") {
+	Board * b = new Board();
+	pair <int, int> initial = make_pair(0, 0); 
+	
+ 	SECTION( "The food item's initial position is [0, 0]" ) 
+	{	
+		REQUIRE(b->getFoodPosition() == initial);
+	}
+	SECTION( "Position is no longer [0, 0] after calling generateFood()" ) 
+	{
+		b->generateFood();
+		REQUIRE(b->getFoodPosition() != initial);
 	}
 }

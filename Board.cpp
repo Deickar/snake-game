@@ -125,3 +125,12 @@ int Board::getSquareContent(int square_y, int square_x)
 	
 	return gameBoard[square_y][square_x].content;
 }
+
+/*
+	Returns the location of the current food item
+*/
+pair <int, int> Board::getFoodPosition()
+{
+	pair <int, int> foodPosition = make_pair(food_y, food_x);
+	return foodPosition;
+}
