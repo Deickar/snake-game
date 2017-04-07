@@ -111,3 +111,17 @@ void Board::setSquareContent(int square_y, int square_x, int content)
 	
 	gameBoard[square_y][square_x].content = content;
 }
+
+/*
+	Returns the content of the specified square
+*/
+int Board::getSquareContent(int square_y, int square_x)
+{
+	// Out of bounds check
+	if(square_y < 0 || square_y > (y_width - 1) || square_x < 0 || square_x > (x_width - 1))
+	{
+		return -1;
+	}
+	
+	return gameBoard[square_y][square_x].content;
+}

@@ -19,10 +19,9 @@ public:
 	void printBoard();
 	void clearBoard();
 	void setSquareContent(int square_y, int square_x, int content);
+	int getSquareContent(int square_y, int square_x);
 	
 protected:
-	//BoardSquare * gameBoard;
-	//std::vector<BoardSquare><BoardSquare> gameBoard;
 	std::vector< std::vector<BoardSquare> > gameBoard;
 	int food_x;
 	int food_y;
