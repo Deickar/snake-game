@@ -27,6 +27,8 @@ protected:
 	int food_x;
 	int food_y;
 	
+	int y_width;
+	int x_width;
 };
 
 #endif /* BOARD_H */
