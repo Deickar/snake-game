@@ -18,7 +18,7 @@ public:
 	void generateFood();
 	void printBoard();
 	void clearBoard();
-	
+	void setSquareContent(int square_y, int square_x, int content);
 	
 protected:
 	//BoardSquare * gameBoard;
