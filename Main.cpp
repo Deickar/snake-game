@@ -32,46 +32,34 @@ int main()
     scrollok(stdscr, TRUE);
 	
 	Board * b = new Board();
-	/*b->printBoard();
-	b->clearBoard();
-	b->generateFood();
-	b->printBoard();
-	b->setSquareContent(26, 1, 3);
-	b->setSquareContent(-1, 1, 3);
+	SnakeGame * s = new SnakeGame();
 	
-	b->setSquareContent(1, -1, 3);
-	b->setSquareContent(1, 52, 3);*/
-	
-	int counter = 0;
+	/*int counter = 0;
 	string msg = "";
 	
 	while (1) 
 	{
+		b->printBoard();
+		printw("SCORE: %d\n", counter);
 		
 		if (kbhit()) 
 		{
-			//b->printBoard();
-			//printw("KEY PRESSED\n");
 			printw("Key pressed! It was: %d\n", getch());
-			//refresh();
 			b->generateFood();
+			refresh();
+			sleep(1);
         } 
 		else 
 		{
 			//b->printBoard();
-			//printw("No key pressed yet...\n");
-            //refresh();
+			printw("No key pressed yet...\n");
+            refresh();
             sleep(1);
         }
-		
+	
 		counter += 1;
-		
-		b->printBoard();
-		refresh();
-		
-		//system("clear");
 		clear();
-    }
+    }*/
 	
 	endwin();
 	
