@@ -2,6 +2,10 @@
 #define BOARD_H
 
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+
+#include <ncurses.h>
 
 struct BoardSquare 
 {
@@ -22,7 +26,7 @@ public:
 	int getSquareContent(int square_y, int square_x);
 	std::pair <int, int> getFoodPosition();
 	
-protected:
+private:
 	std::vector< std::vector<BoardSquare> > gameBoard;
 	int food_y;
 	int food_x;

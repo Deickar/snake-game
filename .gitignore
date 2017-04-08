@@ -32,4 +32,6 @@
 *.app
 
 # Project executable
-Main
+main
+a
+a.cpp

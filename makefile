@@ -1,11 +1,20 @@
-Tests : Tests.cpp board.o
-	g++ -o Tests Tests.cpp board.o
+main : Main.cpp board.o snakegame.o
+	g++ -o main Main.cpp board.o snakegame.o -lncurses
 
-Main : Main.cpp board.o
-	g++ -o Main Main.cpp board.o
+snakegame.o : snakegame.h SnakeGame.cpp
+	g++ -c SnakeGame.cpp -o snakegame.o
 
-board.o : Board.h Board.cpp
+board.o : board.h Board.cpp
 	g++ -c Board.cpp -o board.o
 	
+test:
+	g++ -o tests Tests.cpp board.o
+	
+a : a.cpp board.o
+	g++ -o a a.cpp board.o -lncurses
+	
 clean:
-	\rm *.o Main Tests
+	\rm *.o main
+	
+cleana:
+	\rm a

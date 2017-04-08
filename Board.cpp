@@ -1,6 +1,4 @@
-#include "Board.h"
-#include <iostream>
-#include <cstdlib>
+#include "board.h"
 
 using namespace std;
 
@@ -63,11 +61,23 @@ void Board::printBoard()
 		{
 			if(gameBoard[y][x].hasFood)
 			{
-				cout << "F";
+				printw("F");
+				//cout << "F";
 				continue;
 			}
 			//cout << gameBoard[y][x].content;
+			
 			switch(gameBoard[y][x].content) {
+				case 0 : printw(" ");
+					break;
+				case 1 : printw("*");
+					break;
+				case 2 : printw("@");
+					break;
+				case 3 : printw("#");
+					break;
+			}
+			/*switch(gameBoard[y][x].content) {
 				case 0 : cout << " ";
 					break;
 				case 1 : cout << "*";
@@ -76,9 +86,10 @@ void Board::printBoard()
 					break;
 				case 3 : cout << "#";
 					break;
-			}
+			}*/
 		}
-		cout << endl;
+		printw("\n");
+		//cout << endl;
 	}
 }
 
