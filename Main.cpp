@@ -1,6 +1,7 @@
 #include "board.h"
 #include "snakegame.h"
 #include <string>
+#include <iostream>
 
 #include <unistd.h>  /* only for sleep() */
 
@@ -42,7 +43,6 @@ int main()
 	cout << s->gameOver() << endl;*/ // TODO REMOVE
 	
 	s->runGame();
-	
 	/*int counter = 0;
 	string msg = "";
 	
@@ -71,6 +71,8 @@ int main()
     }*/
 	
 	endwin();
+	
+	cout << "KEKE GEM OVER!!!" << endl;
 	
 	return 0;
 }

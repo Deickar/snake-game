@@ -1,4 +1,5 @@
 #include "snakegame.h"
+#include <unistd.h>  /* only for sleep() */
 
 using namespace std;
 
@@ -17,7 +18,7 @@ SnakeGame::SnakeGame()
 		if(i == 0)
 		{
 			// The snake's initial movement direction is always towards the right
-			toAdd.nextYX = make_pair(segment_y, segment_x + 1);
+			toAdd.nextYX = make_pair(segment_y + yAxisMoveDirection, segment_x + xAxisMoveDirection);
 			toAdd.currentYX = make_pair(segment_y, segment_x);
 		}
 		else
@@ -56,7 +57,19 @@ int SnakeGame::runGame()
 	while(!gameOver())
 	{
 		board->printBoard();
+		printw("[%d, %d]\n", snake[0].currentYX.first, snake[0].currentYX.second);
 		refresh();
+		moveSnake();
+		updateBoard();
+		sleep(1);
+		clear();
+		
+		// GAME IS NOT ENDING EVEN THOUGH HEAD REACHES BORDER
+		// BECAUSE HEAD IS OVERRIDING THE BORDER PROPERTY, WILL ALSO OVERRIDE SNAKE'S OWN BODY SEGMENTS
+		if(gameOver())
+		{
+			printw("KEKEKE\n");
+		}
 	}
 	
 	endwin();
@@ -70,14 +83,16 @@ void SnakeGame::moveSnake()
 {
 	for(int i = 0; i < snake.size(); i++)
 	{
-		// 
+		snake[i].currentYX = snake[i].nextYX;
+		
 		if(i == 0)
 		{
-			
+			snake[i].nextYX = make_pair(snake[i].currentYX.first + yAxisMoveDirection, snake[i].currentYX.second + xAxisMoveDirection);
 		}
 		else
 		{
-			
+			// 
+			snake[i].nextYX = snake[i - 1].currentYX;
 		}
 	}
 }
@@ -101,6 +116,9 @@ void SnakeGame::updateBoard()
 	
 	for(int i = 0; i < snake.size(); i++)
 	{
+		
+		board->addSquareOccupant(snake[i].currentYX.first, snake[i].currentYX.second, i);
+		/*
 		if(i == 0)
 		{
 			board->setSquareContent(snake[i].currentYX.first, snake[i].currentYX.second, 2);
@@ -108,7 +126,7 @@ void SnakeGame::updateBoard()
 		else
 		{
 			board->setSquareContent(snake[i].currentYX.first, snake[i].currentYX.second, 1);
-		}
+		}*/
 	}
 }
 

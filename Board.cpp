@@ -1,13 +1,15 @@
 #include "board.h"
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 Board::Board()
 {
-	y_width = 26;
+	y_width = 20;
 	x_width = 52;
 	
-	gameBoard.resize(26, vector<BoardSquare>(52));
+	gameBoard.resize(y_width, vector<BoardSquare>(x_width));
 	
 	for(int y = 0; y < y_width; y++)
 	{
@@ -17,6 +19,7 @@ Board::Board()
 			if(y == 0 || y == (y_width - 1) || x == 0 || x == (x_width - 1))
 			{
 				gameBoard[y][x].content = 3;
+				gameBoard[y][x].isBorder = true;
 			}
 			else
 			{
@@ -59,15 +62,28 @@ void Board::printBoard()
 	{
 		for(int x = 0; x < x_width; x++)
 		{
-			if(gameBoard[y][x].hasFood)
+			if(gameBoard[y][x].isBorder)
+			{
+				printw("#");
+			}
+			else if(gameBoard[y][x].hasFood)
 			{
 				printw("F");
 				//cout << "F";
-				continue;
 			}
-			//cout << gameBoard[y][x].content;
-			
-			switch(gameBoard[y][x].content) {
+			else if( find(gameBoard[y][x].occupants.begin(), gameBoard[y][x].occupants.end(), 0) != gameBoard[y][x].occupants.end() )
+			{
+				printw("@");
+			}
+			else if( !gameBoard[y][x].occupants.empty() )
+			{
+				printw("*");
+			}
+			else
+			{
+				printw(" ");
+			}
+			/*switch(gameBoard[y][x].content) {
 				case 0 : printw(" ");
 					break;
 				case 1 : printw("*");
@@ -77,7 +93,7 @@ void Board::printBoard()
 				case 3 : printw("#");
 					break;
 			}
-			/*switch(gameBoard[y][x].content) {
+			switch(gameBoard[y][x].content) {
 				case 0 : cout << " ";
 					break;
 				case 1 : cout << "*";
@@ -104,13 +120,15 @@ void Board::clearBoard()
 	{
 		for(int x = 1; x <= (x_width - 2); x++)
 		{
-			gameBoard[y][x].content = 0;
+			//gameBoard[y][x].content = 0;
+			gameBoard[y][x].occupants.clear();
 		}
 	}
 }
 
 /*
 	Sets the content of the specified square on the board
+	TODO <<<<<< remove this, no longer needed
 */
 void Board::setSquareContent(int square_y, int square_x, int content)
 {
@@ -121,6 +139,17 @@ void Board::setSquareContent(int square_y, int square_x, int content)
 	}
 	
 	gameBoard[square_y][square_x].content = content;
+}
+
+void Board::addSquareOccupant(int square_y, int square_x, int content)
+{
+	// Out of bounds check
+	if(square_y < 0 || square_y > (y_width - 1) || square_x < 0 || square_x > (x_width - 1))
+	{
+		return;
+	}
+	
+	gameBoard[square_y][square_x].occupants.push_back(content);
 }
 
 /*
