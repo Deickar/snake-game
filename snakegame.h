@@ -21,6 +21,7 @@ public:
 	bool foodEaten();
 	void updateBoard();
 	bool gameOver();
+	void growSnake();
 	
 private:
 	std::vector<SnakeSegment> snake;

@@ -33,6 +33,11 @@ int main()
 	
 	Board * b = new Board();
 	SnakeGame * s = new SnakeGame();
+	s->growSnake();
+	s->growSnake();
+	s->growSnake();
+	
+	cout << s->gameOver() << endl;
 	
 	/*int counter = 0;
 	string msg = "";
