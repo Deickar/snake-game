@@ -20,10 +20,14 @@ public:
 	void moveSnake();
 	bool foodEaten();
 	void updateBoard();
+	bool gameOver();
 	
 private:
 	std::vector<SnakeSegment> snake;
 	int score;
+	int yAxisMoveDirection;
+	int xAxisMoveDirection;
+	Board * board;
 };
 
 
