@@ -8,8 +8,9 @@
 */
 struct SnakeSegment
 {
-	std::pair <int, int> currentYXPosition;
-	std::pair <int, int> nextYXPosition;
+	// 1st element = Y coordinate, 2nd element = X coordinate
+	std::pair <int, int> currentYX;
+	std::pair <int, int> nextYX;
 };
 
 class SnakeGame
@@ -22,6 +23,7 @@ public:
 	void updateBoard();
 	bool gameOver();
 	void growSnake();
+	std::vector<SnakeSegment> getSnake();
 	
 private:
 	std::vector<SnakeSegment> snake;

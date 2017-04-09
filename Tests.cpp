@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
-#include "Board.h"
+#include "board.h"
+#include "snakegame.h"
 
 using namespace std;
 
@@ -33,5 +34,28 @@ TEST_CASE( "The location of the food item changes after calling generateFood()")
 	{
 		b->generateFood();
 		REQUIRE(b->getFoodPosition() != initial);
+	}
+}
+
+TEST_CASE( "The snake size increases after growSnake() is called") {
+	SnakeGame * s = new SnakeGame();
+	
+ 	SECTION( "Snake's initial size is 4" ) 
+	{	
+		REQUIRE(s->getSnake().size() == 4);
+	}
+	SECTION( "Snake grows by 3 after calling growSnake() x3" ) 
+	{
+		s->growSnake();
+		s->growSnake();
+		s->growSnake();
+		REQUIRE(s->getSnake().size() == 7);
+	}
+	SECTION( "Snake's new tail end is at [14, ]" ) 
+	{
+		// 14, 28 <<<<<<<<<<<<<<<<<<<<<<<<< 28 27 26 25 24 23 22
+		vector<SnakeSegment> snake = s->getSnake();
+		SnakeSegment finalSegment = snake[snake.size() - 1];
+		REQUIRE( finalSegment.currentYX.first == 14 );
 	}
 }

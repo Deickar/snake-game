@@ -36,8 +36,12 @@ int main()
 	s->growSnake();
 	s->growSnake();
 	s->growSnake();
+	s->updateBoard();
+	/*cout << s->gameOver() << endl;
+	s->updateBoard();
+	cout << s->gameOver() << endl;*/ // TODO REMOVE
 	
-	cout << s->gameOver() << endl;
+	s->runGame();
 	
 	/*int counter = 0;
 	string msg = "";
