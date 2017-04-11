@@ -135,10 +135,12 @@ void SnakeGame::updateBoard()
 */
 bool SnakeGame::gameOver()
 {
-	int squareContent = board->getSquareContent( snake[0].currentYX.first, snake[0].currentYX.second);
+	//int squareContent = board->getSquareContent( snake[0].currentYX.first, snake[0].currentYX.second);
+	BoardSquare square = board->getSquare(snake[0].currentYX.first, snake[0].currentYX.second);
 	
 	// The game is over if the snake's head reaches a square that is not empty (occupied by snake itself / border)
-	if(squareContent == 1 || squareContent == 3)
+	// TODO THIS make it use occupants vector + isBorder
+	if(square.isBorder || square.occupants.size() > 1)
 	{
 		return true;
 	}

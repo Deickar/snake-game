@@ -152,6 +152,11 @@ void Board::addSquareOccupant(int square_y, int square_x, int content)
 	gameBoard[square_y][square_x].occupants.push_back(content);
 }
 
+BoardSquare Board::getSquare(int square_y, int square_x)
+{	
+	return gameBoard[square_y][square_x];
+}
+
 /*
 	Returns the content of the specified square
 */

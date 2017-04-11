@@ -15,6 +15,7 @@ TEST_CASE( "The content of gameBoard[10][10] are set to different values") {
 		b->setSquareContent(10, 10, 2);
 		REQUIRE(b->getSquareContent(10, 10) == 2);
 	}
+	
 	SECTION( "gameBoard[10][10]'s content should be 0 after calling the clearBoard() method" ) 
 	{
 		b->clearBoard();
@@ -30,6 +31,7 @@ TEST_CASE( "The location of the food item changes after calling generateFood()")
 	{	
 		REQUIRE(b->getFoodPosition() == initial);
 	}
+	
 	SECTION( "Position is no longer [0, 0] after calling generateFood()" ) 
 	{
 		b->generateFood();
@@ -37,25 +39,55 @@ TEST_CASE( "The location of the food item changes after calling generateFood()")
 	}
 }
 
-TEST_CASE( "The snake size increases after growSnake() is called") {
+TEST_CASE( "Test SnakeGame's growSnake() method") {
 	SnakeGame * s = new SnakeGame();
 	
  	SECTION( "Snake's initial size is 4" ) 
 	{	
 		REQUIRE(s->getSnake().size() == 4);
 	}
+	
 	SECTION( "Snake grows by 3 after calling growSnake() x3" ) 
 	{
 		s->growSnake();
 		s->growSnake();
 		s->growSnake();
 		REQUIRE(s->getSnake().size() == 7);
+		
+		SECTION( "Snake's new tail end is at [14, 22]" ) 
+		{
+			vector<SnakeSegment> snake = s->getSnake();
+			SnakeSegment finalSegment = snake[snake.size() - 1];
+			REQUIRE( finalSegment.currentYX.first == 14 );
+			REQUIRE( finalSegment.currentYX.second == 22 );
+		}
 	}
-	SECTION( "Snake's new tail end is at [14, ]" ) 
-	{
-		// 14, 28 <<<<<<<<<<<<<<<<<<<<<<<<< 28 27 26 25 24 23 22
-		vector<SnakeSegment> snake = s->getSnake();
-		SnakeSegment finalSegment = snake[snake.size() - 1];
-		REQUIRE( finalSegment.currentYX.first == 14 );
+	
+}
+
+TEST_CASE( "Test SnakeGame's gameOver() method" ) {
+	SnakeGame * s = new SnakeGame();
+	
+ 	SECTION( "The game is not over when it is first initialized" ) 
+	{	
+		REQUIRE(s->gameOver() == false);
 	}
+	
+	SECTION( "The game does not end when the snake moves into empty squares" ) 
+	{	
+		for(int i = 0; i < 22; i++)
+		{
+			s->moveSnake();
+			s->updateBoard();
+		}
+		REQUIRE(s->gameOver() == false);
+		
+		SECTION( "The game ends when the head collides with a border" ) 
+		{	
+			s->moveSnake();
+			s->updateBoard();
+			REQUIRE(s->gameOver() == true);
+		}
+	}
+	
 }

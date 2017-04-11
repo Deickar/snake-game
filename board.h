@@ -25,6 +25,7 @@ public:
 	void clearBoard();
 	void setSquareContent(int square_y, int square_x, int content);
 	void addSquareOccupant(int square_y, int square_x, int content);
+	BoardSquare getSquare(int square_y, int square_x);
 	int getSquareContent(int square_y, int square_x);
 	std::pair <int, int> getFoodPosition();
 	
