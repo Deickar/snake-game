@@ -66,7 +66,7 @@ int SnakeGame::runGame()
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 	
-	// TODO <<<<
+	// Keep looping and detecting player input until the game ends
 	while(!gameOver())
 	{	
 		detectPlayerInput();
@@ -75,14 +75,22 @@ int SnakeGame::runGame()
 		updateBoard();
 		board->printBoard();
 		printw("[%d, %d]\n", snake[0].currentYX.first, snake[0].currentYX.second);
+		printw("Snake length: %d\n", snake.size());
 		refresh();
+		// If the snake eats something the growth is shown upon the next move / screen refresh
+		if(foodEaten())
+		{
+			growSnake();
+			board->generateFood();
+			updateBoard();
+		}
 		
 		sleep(1);
 		clear();
 	}
 	
 	board->printBoard();
-	printw("KEKEKE\n");
+	printw(">>>>>>>>>> GAME OVER!!! <<<<<<<<<<\n");
 	refresh();
 	sleep(1);
 	endwin();
@@ -204,28 +212,32 @@ void SnakeGame::detectPlayerInput()
 	// TODO make snake unable of moving backwards into itself <<<<<<<<<<<<<<<<<<<<
 	if (kbhit()) 
 	{
+		int newY = 0, newX = 0;
+		
 		char moveDirection = getch();
 		switch(moveDirection) {
 			// W
 			case 119 : 
-				printw("Key pressed! It was: %d\n", moveDirection);
-				yAxisMoveDirection = -1, xAxisMoveDirection = 0;
+				newY = -1, newX = 0;
 				break;
 			// A
 			case 97 :
-				printw("Key pressed! It was: %d\n", moveDirection);
-				yAxisMoveDirection = 0, xAxisMoveDirection = -1;
+				newY = 0, newX = -1;
 				break;
 			// S
 			case 115 :
-				printw("Key pressed! It was: %d\n", moveDirection);
-				yAxisMoveDirection = 1, xAxisMoveDirection = 0;
+				newY= 1, newX = 0;
 				break;
 			// D
 			case 100 :
-				printw("Key pressed! It was: %d\n", moveDirection);
-				yAxisMoveDirection = 0, xAxisMoveDirection = 1;
+				newY = 0, newX = 1;
 				break;
+		}
+		
+		// Prevents the user from making the snake head move backwards into its body
+		if(yAxisMoveDirection + newY != 0 && xAxisMoveDirection + newX != 0)
+		{
+			yAxisMoveDirection = newY, xAxisMoveDirection = newX;
 		}
 
 		// Update the snake head's next position

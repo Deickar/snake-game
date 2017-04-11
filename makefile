@@ -7,7 +7,7 @@ snakegame.o : snakegame.h SnakeGame.cpp
 board.o : board.h Board.cpp
 	g++ -c Board.cpp -o board.o -lncurses
 	
-test:
+tests:
 	g++ -o tests Tests.cpp board.o snakegame.o -lncurses
 	
 a : a.cpp board.o
