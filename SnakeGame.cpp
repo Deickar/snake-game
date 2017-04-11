@@ -30,48 +30,61 @@ SnakeGame::SnakeGame()
 		}
 		
 		snake.push_back(toAdd);
-		
-		/*if(i == 3) // TODO REMOVE <<<<<<<<<<<<<<<<
-		{
-			cout << "Y: " << toAdd.currentYX.first << " || X: " << toAdd.currentYX.second << endl; 
-		}*/
 	}
 	
 	board = new Board();
+	board->generateFood();
 	updateBoard();
 }
 
 /*
-	TODO
+	Helper method for detecting keypresses
+*/
+int SnakeGame::kbhit(void)
+{
+	int ch = getch();
+
+    if(ch != ERR)
+	{
+		ungetch(ch);
+		return 1;
+    } 
+	else 
+	{
+        return 0;
+    }
+}
+
+/*
+	Runs the snake game from start to finish.
 */
 int SnakeGame::runGame()
 {
 	initscr();
-
     cbreak();
     noecho();
     nodelay(stdscr, TRUE);
-
     scrollok(stdscr, TRUE);
 	
+	// TODO <<<<
 	while(!gameOver())
-	{
+	{	
+		detectPlayerInput();
+		
+		moveSnake();
+		updateBoard();
 		board->printBoard();
 		printw("[%d, %d]\n", snake[0].currentYX.first, snake[0].currentYX.second);
 		refresh();
-		moveSnake();
-		updateBoard();
+		
 		sleep(1);
 		clear();
-		
-		// GAME IS NOT ENDING EVEN THOUGH HEAD REACHES BORDER
-		// BECAUSE HEAD IS OVERRIDING THE BORDER PROPERTY, WILL ALSO OVERRIDE SNAKE'S OWN BODY SEGMENTS
-		if(gameOver())
-		{
-			printw("KEKEKE\n");
-		}
 	}
 	
+	board->printBoard();
+	printw("KEKEKE\n");
+	refresh();
+	sleep(1);
 	endwin();
 }
 
@@ -103,6 +116,13 @@ void SnakeGame::moveSnake()
 */
 bool SnakeGame::foodEaten()
 {
+	BoardSquare square = board->getSquare(snake[0].currentYX.first, snake[0].currentYX.second);
+	
+	if(square.hasFood)
+	{
+		return true;
+	}
+	
 	return false;
 }
 
@@ -177,4 +197,40 @@ void SnakeGame::growSnake()
 vector<SnakeSegment> SnakeGame::getSnake()
 {
 	return snake;
+}
+
+void SnakeGame::detectPlayerInput()
+{
+	// TODO make snake unable of moving backwards into itself <<<<<<<<<<<<<<<<<<<<
+	if (kbhit()) 
+	{
+		char moveDirection = getch();
+		switch(moveDirection) {
+			// W
+			case 119 : 
+				printw("Key pressed! It was: %d\n", moveDirection);
+				yAxisMoveDirection = -1, xAxisMoveDirection = 0;
+				break;
+			// A
+			case 97 :
+				printw("Key pressed! It was: %d\n", moveDirection);
+				yAxisMoveDirection = 0, xAxisMoveDirection = -1;
+				break;
+			// S
+			case 115 :
+				printw("Key pressed! It was: %d\n", moveDirection);
+				yAxisMoveDirection = 1, xAxisMoveDirection = 0;
+				break;
+			// D
+			case 100 :
+				printw("Key pressed! It was: %d\n", moveDirection);
+				yAxisMoveDirection = 0, xAxisMoveDirection = 1;
+				break;
+		}
+
+		// Update the snake head's next position
+		int nextY = snake[0].currentYX.first + yAxisMoveDirection;
+		int nextX = snake[0].currentYX.second + xAxisMoveDirection;
+		snake[0].nextYX = make_pair(nextY, nextX);
+	} 
 }

@@ -7,7 +7,7 @@ using namespace std;
 
 TEST_CASE( "The content of gameBoard[10][10] are set to different values") {
 	Board * b = new Board();
-    //REQUIRE( test == 2 );
+	
 	REQUIRE(b->getSquareContent(10, 10) == 0);
 	
  	SECTION( "gameBoard[10][10]'s content should be 2" ) 
@@ -89,5 +89,4 @@ TEST_CASE( "Test SnakeGame's gameOver() method" ) {
 			REQUIRE(s->gameOver() == true);
 		}
 	}
-	
 }

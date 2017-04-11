@@ -24,6 +24,8 @@ public:
 	bool gameOver();
 	void growSnake();
 	std::vector<SnakeSegment> getSnake();
+	int kbhit(void);
+	void detectPlayerInput();
 	
 private:
 	std::vector<SnakeSegment> snake;
