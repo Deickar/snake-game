@@ -19,20 +19,20 @@ public:
 	SnakeGame();
 	int runGame();
 	void moveSnake();
-	bool foodEaten();
-	void updateBoard();
-	bool gameOver();
 	void growSnake();
-	std::vector<SnakeSegment> getSnake();
+	void updateBoard();
+	bool foodEaten();
+	bool gameOver();
 	int kbhit(void);
 	void detectPlayerInput();
+	std::vector<SnakeSegment> getSnake();
 	
 private:
+	Board * board;
 	std::vector<SnakeSegment> snake;
 	int score;
 	int yAxisMoveDirection;
 	int xAxisMoveDirection;
-	Board * board;
 };
 
 

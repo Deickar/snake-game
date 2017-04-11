@@ -7,14 +7,11 @@ snakegame.o : snakegame.h SnakeGame.cpp
 board.o : board.h Board.cpp
 	g++ -c Board.cpp -o board.o -lncurses
 	
-tests:
+tests: Tests.cpp board.o snakegame.o
 	g++ -o tests Tests.cpp board.o snakegame.o -lncurses
-	
-a : a.cpp board.o
-	g++ -o a a.cpp board.o -lncurses
 	
 clean:
 	\rm *.o main
 	
-cleana:
-	\rm a
+cleantests:
+	\rm tests

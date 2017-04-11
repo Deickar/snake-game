@@ -5,25 +5,20 @@
 
 using namespace std;
 
-TEST_CASE( "The content of gameBoard[10][10] are set to different values") {
+
+TEST_CASE( "Test Board's clearBoard() method") {
 	Board * b = new Board();
 	
-	REQUIRE(b->getSquareContent(10, 10) == 0);
-	
- 	SECTION( "gameBoard[10][10]'s content should be 2" ) 
+	for(int y = 1; y <= (20 - 2); y++)
 	{
-		b->setSquareContent(10, 10, 2);
-		REQUIRE(b->getSquareContent(10, 10) == 2);
-	}
-	
-	SECTION( "gameBoard[10][10]'s content should be 0 after calling the clearBoard() method" ) 
-	{
-		b->clearBoard();
-		REQUIRE(b->getSquareContent(10, 10) == 0);
+		for(int x = 1; x <= (52 - 2); x++)
+		{
+			REQUIRE(b->getSquare(y, x).occupants.size() == 0);
+		}
 	}
 }
 
-TEST_CASE( "The location of the food item changes after calling generateFood()") {
+TEST_CASE( "Test Board's generateFood() method") {
 	Board * b = new Board();
 	pair <int, int> initial = make_pair(0, 0); 
 	
@@ -36,6 +31,40 @@ TEST_CASE( "The location of the food item changes after calling generateFood()")
 	{
 		b->generateFood();
 		REQUIRE(b->getFoodPosition() != initial);
+	}
+}
+
+TEST_CASE( "Test Board's getSquare() method") {
+	Board * b = new Board();
+	
+ 	SECTION( "board[0][25] is a border square" ) 
+	{	
+		REQUIRE(b->getSquare(0, 25).isBorder == true);
+	}
+	
+	SECTION( "board[10][25] is not a border square" ) 
+	{	
+		REQUIRE(b->getSquare(10, 25).isBorder != true);
+	}
+}
+
+TEST_CASE( "Test Board's addSquareOccupant() method") {
+	Board * b = new Board();
+	
+ 	SECTION( "board[10][15] initially has no occupants" ) 
+	{	
+		REQUIRE(b->getSquare(10, 15).occupants.size() == 0);
+	}
+	
+	SECTION( "board[10][15] has occupants 5 and 6 after two additions" ) 
+	{	
+		b->addSquareOccupant(10, 15, 5);
+		REQUIRE(b->getSquare(10, 15).occupants.size() == 1);
+		b->addSquareOccupant(10, 15, 6);
+		REQUIRE(b->getSquare(10, 15).occupants.size() == 2);
+		
+		REQUIRE(b->getSquare(10, 15).occupants[0] == 5);
+		REQUIRE(b->getSquare(10, 15).occupants[1] == 6);
 	}
 }
 
