@@ -1,6 +1,5 @@
 #include "snakegame.h"
 #include <unistd.h>  /* only for sleep() */
-#include <iostream> // TODO REMOVE <<<<<<<<<<<<<<<<<<<
 
 using namespace std;
 
@@ -40,8 +39,12 @@ SnakeGame::SnakeGame()
 
 /*
 	Runs the snake game from start to finish.
+	
+	@activateAI
+		Integer that determines whether the AI is activated or not.
+		0 == deactivated, 1 == activated.
 */
-int SnakeGame::runGame()
+int SnakeGame::runGame(int activateAI)
 {
 	initscr();
     cbreak();
@@ -49,18 +52,25 @@ int SnakeGame::runGame()
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 	
-	// Keep looping and detecting player input until the game ends
+	// Keep looping and detecting input until the game ends
 	while(!gameOver())
 	{	
-		// Calculate new path to the newly generated food item if the movelist is empty
-		if(nextAIMove.empty())
+		switch(activateAI)
 		{
-			findPathToFoodBFS();
+			case 0:
+				detectPlayerInput();
+				break;
+			case 1:
+				// Calculate new path to the newly generated food item if the movelist is empty
+				if(nextAIMove.empty())
+				{
+					findPathToFoodBFS();
+				}
+
+				// Make AI move here
+				makeAIMove();
+				break;
 		}
-		
-		// Make AI move here
-		makeAIMove();
-		//detectPlayerInput();
 		
 		moveSnake();
 		updateBoard();

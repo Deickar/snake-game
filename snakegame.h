@@ -2,7 +2,6 @@
 #define SNAKEGAME_H
 
 #include "board.h"
-#include <list>
 #include <unordered_map>
 #include <queue>
 #include <stack>
@@ -21,7 +20,7 @@ class SnakeGame
 {
 public:
 	SnakeGame();
-	int runGame();
+	int runGame(int activateAI);
 	void moveSnake();
 	void growSnake();
 	void updateBoard();
