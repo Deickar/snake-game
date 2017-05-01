@@ -1,5 +1,6 @@
 #include "snakegame.h"
 #include <unistd.h>  /* only for sleep() */
+#include <iostream> // TODO REMOVE <<<<<<<<<<<<<<<<<<<
 
 using namespace std;
 
@@ -38,6 +39,15 @@ SnakeGame::SnakeGame()
 }
 
 /*
+	TODO <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+*/
+string SnakeGame::makeKey(std::pair<int, int> pairToConvert)
+{
+	string key = "" + to_string(pairToConvert.first) + " " + to_string(pairToConvert.second);
+	return key;
+}
+
+/*
 	Runs the snake game from start to finish.
 */
 int SnakeGame::runGame()
@@ -51,6 +61,72 @@ int SnakeGame::runGame()
 	// Keep looping and detecting player input until the game ends
 	while(!gameOver())
 	{	
+		// Calculate new path to the newly generated food item if the movelist is empty
+		if(nextAIMove.empty())
+		{
+			printw("KEKE\n");
+			// Use BFS to traverse the board starting from the snake's head until the food item is found
+			
+			// Mark all the squares that the snake occupies as visited so that the snake won't move into itself
+			visited.clear();
+			parent.clear();
+			for(int i = 1; i < snake.size(); i++)
+			{
+				string key = makeKey(snake[i].currentYX); //"" + to_string(snake[i].currentYX.first) + " " + to_string(snake[i].currentYX.second);
+				visited[key] = true;
+			}
+			
+			// TODO make BFS into its own method
+			// Initiate BFS here
+			queue.push( make_pair(snake[0].currentYX.first, snake[0].currentYX.second) );
+			while(!queue.empty())
+			{
+				pair<int, int> curYX = queue.front();
+				queue.pop();
+				
+				// Exit the loop if the food item is found
+				if(curYX == board->getFoodPosition())
+				{
+					//TODO <<<<<<<<<<<<<<
+					/*printw("FOUND!\n");
+					refresh();
+					sleep(2);*/
+					break;
+				}
+				
+				// TODO make key-ify into a helper <<<<<<<<<<<<<<<<<<<<, 
+				string key = makeKey(curYX); //"" + to_string(curYX.first) + " " + to_string(curYX.second);
+				if(!visited[key])
+				{
+					// Mark position as visited
+					visited[key] = true;
+					// Visit all adjacent nodes clockwise (URDL)
+					// -1,0 || 0,1 || 1,0 || 0,-1
+					pair<int, int> URDL[4];
+					URDL[0] = make_pair(curYX.first - 1, curYX.second);
+					URDL[1] = make_pair(curYX.first, curYX.second + 1);
+					URDL[2] = make_pair(curYX.first + 1, curYX.second);
+					URDL[3] = make_pair(curYX.first, curYX.second - 1);
+					
+					for(int i = 0; i < 4; i++)
+					{
+						queue.push(URDL[i]);
+						// Set parent here
+						key = makeKey(URDL[i]);
+						parent[key] = curYX;
+					}
+				}
+			}
+			// Clear the queue
+			while(!queue.empty())
+			{
+				queue.pop();
+			}
+			
+			// Start at the food item position and move backwards following the parents' trail until the snake's head is found
+			
+		}
+		
 		detectPlayerInput();
 		
 		moveSnake();
